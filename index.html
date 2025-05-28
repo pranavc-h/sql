@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <title>🔥 SQL Exam Vault - Cyberpunk Edition 🔥</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap');
+
+    /* Reset */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      background:
+        radial-gradient(circle at center, #ff0055, #000000 80%);
+      font-family: 'Share Tech Mono', monospace;
+      color: #ff0055;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+      overflow: hidden;
+      perspective: 1000px;
+    }
+
+    /* Neon flicker animation */
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow:
+          0 0 5px #ff0055,
+          0 0 10px #ff0055,
+          0 0 20px #ff0055,
+          0 0 40px #ff0055,
+          0 0 80px #ff0055;
+        opacity: 1;
+      }
+      20%, 22%, 24%, 55% {
+        text-shadow: none;
+        opacity: 0.8;
+      }
+    }
+
+    /* Container */
+    .container {
+      background: rgba(10, 0, 20, 0.85);
+      border-radius: 20px;
+      box-shadow:
+        0 0 20px #ff0055cc,
+        inset 0 0 40px #ff0055cc;
+      width: 90vw;
+      max-width: 1000px;
+      padding: 40px 50px;
+      transform-style: preserve-3d;
+      animation: slideIn 1s ease forwards;
+      user-select: text;
+    }
+
+    @keyframes slideIn {
+      0% {
+        opacity: 0;
+        transform: translateZ(-300px) translateY(50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateZ(0) translateY(0);
+      }
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 40px;
+      color: #ff0055;
+      animation: flicker 3s infinite;
+      letter-spacing: 6px;
+      user-select: none;
+      text-transform: uppercase;
+      text-shadow:
+        0 0 10px #ff0055,
+        0 0 20px #ff0055,
+        0 0 40px #ff3399;
+    }
+
+    /* Password Box */
+    #loginBox {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    input[type="password"] {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.4rem;
+      padding: 18px 28px;
+      border-radius: 50px;
+      border: 2px solid #ff0055;
+      background: transparent;
+      color: #ff77aa;
+      width: 350px;
+      max-width: 90vw;
+      box-shadow:
+        0 0 15px #ff0055,
+        inset 0 0 10px #ff77aa;
+      outline: none;
+      transition: 0.3s ease;
+      text-align: center;
+      letter-spacing: 3px;
+      user-select: auto;
+    }
+    input[type="password"]::placeholder {
+      color: #ff66bb88;
+    }
+    input[type="password"]:focus {
+      border-color: #ff77aa;
+      box-shadow:
+        0 0 30px #ff77aa,
+        inset 0 0 20px #ff99cc;
+      color: #fff;
+    }
+
+    button {
+      font-family: 'Orbitron', sans-serif;
+      background: #ff0055;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 18px 60px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow:
+        0 0 25px #ff0055aa,
+        0 0 45px #ff3399cc;
+      transition: 0.3s ease;
+      user-select: none;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    button:hover {
+      background: #ff3399;
+      box-shadow:
+        0 0 40px #ff3399ff,
+        0 0 60px #ff77bbff;
+    }
+    button:active {
+      transform: scale(0.95);
+    }
+
+    /* Content box */
+    #contentBox {
+      display: none;
+      margin-top: 20px;
+      gap: 25px;
+      max-height: 75vh;
+      overflow-y: auto;
+      user-select: text;
+      scroll-behavior: smooth;
+    }
+
+    /* Scrollbar neon */
+    #contentBox::-webkit-scrollbar {
+      width: 10px;
+    }
+    #contentBox::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    #contentBox::-webkit-scrollbar-thumb {
+      background: #ff0055aa;
+      border-radius: 15px;
+      box-shadow:
+        0 0 10px #ff0055cc;
+    }
+
+    /* Code blocks */
+    .code-block {
+      position: relative;
+      background: #220022;
+      padding: 25px 35px 45px 35px;
+      border-radius: 15px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1rem;
+      color: #ff66cc;
+      box-shadow:
+        0 0 10px #ff0055cc inset,
+        0 0 30px #ff66cc44;
+      white-space: pre-wrap;
+      line-height: 1.5;
+      user-select: text;
+      transition: box-shadow 0.3s ease;
+    }
+    .code-block:hover {
+      box-shadow:
+        0 0 15px #ff3399cc inset,
+        0 0 40px #ff99ccaa;
+    }
+
+    /* Copy button */
+    .copy-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      background: #ff0055;
+      border: none;
+      border-radius: 30px;
+      padding: 8px 18px;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      box-shadow:
+        0 0 20px #ff0055cc,
+        0 0 40px #ff3399cc;
+      user-select: none;
+      transition: background 0.3s ease;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .copy-btn:hover {
+      background: #ff3399;
+      box-shadow:
+        0 0 30px #ff3399ff,
+        0 0 50px #ff77bbff;
+    }
+
+    /* Headers */
+    #contentBox > h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.4rem;
+      text-align: center;
+      margin-bottom: 30px;
+      color: #ff66cc;
+      text-shadow:
+        0 0 8px #ff66cc,
+        0 0 15px #ff3399;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.2rem;
+        letter-spacing: 4px;
+      }
+      #contentBox > h2 {
+        font-size: 1.8rem;
+      }
+      input[type="password"] {
+        width: 90vw;
+        padding: 15px 20px;
+        font-size: 1.1rem;
+      }
+      button {
+        padding: 15px 40px;
+        font-size: 1.1rem;
+      }
+      .copy-btn {
+        padding: 6px 14px;
+        font-size: 0.8rem;
+        top: 15px;
+        right: 20px;
+      }
+      .code-block {
+        font-size: 0.9rem;
+        padding: 20px 25px 35px 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="main" aria-label="SQL Exam Vault">
+    <div id="loginBox" aria-live="assertive" aria-label="Password input area">
+      <h1>SQL Exam Vault</h1>
+      <input type="password" id="password" placeholder="Enter Password" autocomplete="off" aria-required="true" aria-label="Password field"/>
+      <button onclick="checkPassword()">Unlock 🔓</button>
+    </div>
+
+    <div id="contentBox" aria-live="polite" aria-label="SQL Exam programs container">
+      <h2>Your 6 SQL Programs</h2>
+
+      <div class="code-block" tabindex="0">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>-- Program 1:
+          -- Drop table if exists (optional, for clean start)
+DROP TABLE IF EXISTS employee;
+
+-- Create the employee table
+CREATE TABLE employee (
+    empno INT PRIMARY KEY,
+    ename VARCHAR(10) NOT NULL,
+    job VARCHAR(10),
+    mgr INT,
+    sal INT
+);
+
+-- Insert sample records
+INSERT INTO employee VALUES (101, 'abhi', 'manager', 1234, 10000); 
+INSERT INTO employee VALUES (102, 'rohith', 'analyst', 2345, 9000); 
+INSERT INTO employee VALUES (103, 'david', 'analyst', 3456, 9000); 
+INSERT INTO employee VALUES (104, 'rahul', 'clerk', 4567, 7000); 
+INSERT INTO employee VALUES (105, 'pramod', 'salesman', 5678, 5000); 
+INSERT INTO employee VALUES (106, 'shashi', 'HR', 5509, 50000);
+
+-- Show table structure
+DESC employee;
+
+-- Select all data
+SELECT * FROM employee;
+
+        </pre>
+      </div>
+
+      <div class="code-block" tabindex="0">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>-- Program 2: 
+          -- Drop table if exists (for clean start)
+DROP TABLE IF EXISTS employee;
+
+-- Create table employee
+CREATE TABLE employee (
+    empno INT PRIMARY KEY,
+    ename VARCHAR(10),
+    job VARCHAR(10),
+    mgr INT,
+    sal INT
+);
+
+-- Add commission column
+ALTER TABLE employee ADD commission INT;
+
+-- Insert records (adjusted for 6 columns, commission as INT)
+INSERT INTO employee VALUES (101, 'abhi', 'manager', 1234, 10000, 70);
+INSERT INTO employee VALUES (102, 'rohith', 'analyst', 2345, 9000, 65);
+INSERT INTO employee VALUES (103, 'david', 'analyst', 3456, 9000, 65);
+INSERT INTO employee VALUES (104, 'rahul', 'clerk', 4567, 7000, 55);
+INSERT INTO employee VALUES (105, 'pramod', 'salesman', 5678, 5000, 50);
+
+-- Select all rows
+SELECT * FROM employee;
+
+-- Update job of empno 103 to 'trainee'
+UPDATE employee SET job = 'trainee' WHERE empno = 103;
+
+-- Rename column 'mgr' to 'manager_no'
+ALTER TABLE employee CHANGE COLUMN mgr manager_no INT;
+
+-- Delete employee with empno=105
+DELETE FROM employee WHERE empno = 105;
+
+-- Final select to show current state
+SELECT * FROM employee;
+
+-- Show structure of table
+DESC employee;
+
+        </pre>
+      </div>
+
+      <div class="code-block" tabindex="0">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>-- Program 3: 
+          -- Create table employee
+CREATE TABLE employee (
+    E_id NUMBER,
+    E_name VARCHAR2(10),
+    age NUMBER,
+    sal NUMBER
+);
+
+-- Describe table (in SQL*Plus or SQL Developer)
+DESC employee;
+
+-- Insert rows
+INSERT INTO employee VALUES (10, 'abhi', 25, 10000);
+INSERT INTO employee VALUES (20, 'rohith', 30, 9000);
+INSERT INTO employee VALUES (30, 'david', 28, 9000);
+INSERT INTO employee VALUES (40, 'rahul', 29, 7000);
+INSERT INTO employee VALUES (50, 'pramod', 31, 8000);
+
+-- Commit changes (Oracle requires commit)
+COMMIT;
+
+-- Select all records
+SELECT * FROM employee;
+
+-- Count number of employees (count of E_name)
+SELECT COUNT(E_name) FROM employee;
+
+-- Maximum age
+SELECT MAX(age) FROM employee;
+
+-- Minimum age
+SELECT MIN(age) FROM employee;
+
+-- Order employees by salary ascending
+SELECT * FROM employee ORDER BY sal ASC;
+
+-- Select distinct salaries (group by salary)
+SELECT sal FROM employee GROUP BY sal;
+
+        </pre>
+      </div>
+
+      <div class="code-block" tabindex="0">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>-- Program 4: 
+          CREATE DATABASE COMPANY04;
+USE COMPANY04;
+CREATE TABLE CUSTOMERS (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    NAME VARCHAR(255),
+    AGE INT,
+    ADDRESS VARCHAR(255),
+    SALARY DECIMAL(10, 2)
+);
+DELIMITER //
+
+CREATE TRIGGER after_insert_salary_difference
+AFTER INSERT ON CUSTOMERS
+FOR EACH ROW
+BEGIN
+	SET @my_sal_diff = CONCAT('salary inserted is ', NEW.SALARY);
+END;
+//
+
+DELIMITER ;
+DELIMITER //
+
+CREATE TRIGGER after_update_salary_difference
+AFTER UPDATE ON CUSTOMERS
+FOR EACH ROW
+BEGIN
+    DECLARE old_salary DECIMAL(10, 2);
+    DECLARE new_salary DECIMAL(10, 2);
+    
+    SET old_salary = OLD.SALARY;
+    SET new_salary = NEW.SALARY;
+    SET @my_sal_diff = CONCAT('salary difference after update is ', NEW.SALARY - OLD.SALARY);
+END;
+//
+
+DELIMITER ;
+DELIMITER //
+
+CREATE TRIGGER after_delete_salary_difference
+AFTER DELETE ON CUSTOMERS
+FOR EACH ROW
+BEGIN
+    SET @my_sal_diff = CONCAT('salary deleted is ', OLD.SALARY);
+END;
+//
+
+DELIMITER ;
+
+INSERT INTO CUSTOMERS (NAME, AGE, ADDRESS, SALARY)
+VALUES ('Shankara', 35, '123 Main St', 50000.00);
+
+SELECT @my_sal_diff AS SAL_DIFF;
+
+UPDATE CUSTOMERS
+SET SALARY = 55000.00
+WHERE ID = 1;
+
+SELECT @my_sal_diff AS SAL_DIFF;
+
+DELETE FROM CUSTOMERS
+WHERE ID = 1;
+
+SELECT @my_sal_diff AS SAL_DIFF;
+
+        </pre>
+      </div>
+
+      <div class="code-block" tabindex="0">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>-- Program 5:
+          CREATE DATABASE COMPANY05;
+
+USE COMPANY05;
+
+CREATE TABLE Employee (
+    E_id INT,
+    E_name VARCHAR(255),
+    Age INT,
+    Salary DECIMAL(10, 2)
+);
+
+INSERT INTO Employee (E_id, E_name, Age, Salary)
+VALUES
+    (1, 'Samarth', 30, 50000.00),
+    (2, 'Ramesh Kumar', 25, 45000.00),
+    (3, 'Seema Banu', 35, 62000.00),
+    (4, 'Dennis Anil', 28, 52000.00),
+    (5, 'Rehman Khan', 32, 58000.00);
+DELIMITER //
+
+CREATE PROCEDURE fetch_employee_data()
+BEGIN
+    DECLARE emp_id INT;
+    DECLARE emp_name VARCHAR(255);
+    DECLARE emp_age INT;
+    DECLARE emp_salary DECIMAL(10, 2);
+    
+    DECLARE emp_cursor CURSOR FOR
+        SELECT E_id, E_name, Age, Salary
+        FROM Employee;
+    
+    DECLARE CONTINUE HANDLER FOR NOT FOUND
+        SET @finished = 1;
+    
+    OPEN emp_cursor;
+    
+    SET @finished = 0;
+    
+    cursor_loop: LOOP
+        FETCH emp_cursor INTO emp_id, emp_name, emp_age, emp_salary;
+        
+        IF @finished = 1 THEN
+            LEAVE cursor_loop;
+        END IF;
+        
+        SELECT CONCAT('Employee ID: ', emp_id, ', Name: ', emp_name, ', Age: ', emp_age, ', Salary: ', emp_salary) AS Employee_Info;
+    END LOOP;
+    
+    CLOSE emp_cursor;
+END//
+
+DELIMITER ;
+
+CALL fetch_employee_data();
+
+        </pre>
+      </div>
+
+      <div class="code-block" tabindex="0">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>-- Program 6: 
+          CREATE DATABASE ROLLCALL;
+
+USE ROLLCALL;
+
+CREATE TABLE N_RollCall (
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(255),
+    birth_date DATE
+);
+
+CREATE TABLE O_RollCall (
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(255),
+    birth_date DATE
+);
+INSERT INTO O_RollCall (student_id, student_name, birth_date)
+VALUES
+    (1, 'Shivanna', '1995-08-15'),
+    (3, 'Cheluva', '1990-12-10');
+INSERT INTO N_RollCall (student_id, student_name, birth_date)
+VALUES
+    (1, 'Shivanna', '1995-08-15'),
+    (2, 'Bhadramma', '1998-03-22'),
+    (3, 'Cheluva', '1990-12-10'),
+    (4, 'Devendra', '2000-05-18'),
+    (5, 'Eshwar', '1997-09-03');
+DELIMITER //
+
+CREATE PROCEDURE merge_rollcall_data()
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE n_id INT;
+    DECLARE n_name VARCHAR(255);
+    DECLARE n_birth_date DATE;
+
+    DECLARE n_cursor CURSOR FOR
+        SELECT student_id, student_name, birth_date
+        FROM N_RollCall;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND
+        SET done = TRUE;
+
+    OPEN n_cursor;
+
+    cursor_loop: LOOP
+        FETCH n_cursor INTO n_id, n_name, n_birth_date;
+
+        IF done THEN
+            LEAVE cursor_loop;
+        END IF;
+
+        IF NOT EXISTS (
+            SELECT 1
+            FROM O_RollCall
+            WHERE student_id = n_id
+        ) THEN
+            INSERT INTO O_RollCall (student_id, student_name, birth_date)
+            VALUES (n_id, n_name, n_birth_date);
+        END IF;
+    END LOOP;
+
+    CLOSE n_cursor;
+END//
+
+DELIMITER ;
+CALL merge_rollcall_data();
+SELECT * FROM O_RollCall;
+
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function checkPassword() {
+      const pwd = document.getElementById('password').value.trim();
+      if (pwd === 'sql@2025') {
+        document.getElementById('loginBox').style.display = 'none';
+        const content = document.getElementById('contentBox');
+        content.style.display = 'flex';
+        content.style.flexDirection = 'column';
+        document.body.style.userSelect = 'text';
+      } else {
+        alert('🚫 Incorrect password! Try again.');
+      }
+    }
+
+    function copyCode(button) {
+      const code = button.nextElementSibling.innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        button.innerText = 'Copied ✓';
+        setTimeout(() => button.innerText = 'Copy', 1500);
+      }).catch(() => {
+        alert('Failed to copy!');
+      });
+    }
+  </script>
+</body>
+</html>

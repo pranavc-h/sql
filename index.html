@@ -307,6 +307,14 @@ DESC employee;
 
 -- Select all data
 SELECT * FROM employee;
+insert into employee values(106,'shashi','HR',5509,50000,'80');
+select * from Employee;
+rollback
+alter table employee modify(empno number primary key,
+ename varchar(10) not null);
+desc Employee;
+insert into employee values(106,'shashi','HR',5509,’ ‘ ,80);
+select * from Employee;
 
         </pre>
       </div>
